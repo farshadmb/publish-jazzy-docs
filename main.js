@@ -24,7 +24,6 @@ if (history == '' || history == null || history == undefined) {
     history = true
 }
 
-const remote = `https://${token}@github.com/${context.repo.owner}/${context.repo.repo}.git`
 
 const generateJazzyInstallCommand = () => {
   let gemInstall = "sudo gem install jazzy"
@@ -119,12 +118,8 @@ const generateAndDeploy = () => {
   shell.exec("rm -rf " + folder)
   shell.mv("../.staging/" + folder, folder)
   shell.exec("rm " + folder + "undocumented.json")
-  shell.exec(`git config user.name ${context.actor}`)
-  shell.exec(`git config user.email ${context.actor}@users.noreply.github.com`)
-  shell.exec("git add .")
-  shell.exec("git commit -m 'Deploying Updated Jazzy Docs'")
-  shell.exec(`git push --force ${remote} ${branch}`)
-
+  shell.exec("git add " + folder)
+ 
   shell.cd(process.env.GITHUB_WORKSPACE)
 }
 
